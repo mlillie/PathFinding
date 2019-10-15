@@ -28,9 +28,11 @@ public class Astar extends Pathfinder {
     /**
      * Constructs a new path A* finding algorithm.
      * @param grid The Grid being used for this algorithm.
+     * @param diagonalMovement Whether or not we can move diagonally.
+     * @param heuristic The heuristic used for the algorithm.
      */
-    public Astar(Grid grid, AstarHeuristics heuristic) {
-        super(grid);
+    public Astar(Grid grid, boolean diagonalMovement, AstarHeuristics heuristic) {
+        super(grid, diagonalMovement);
         this.heuristic = heuristic;
     }
 

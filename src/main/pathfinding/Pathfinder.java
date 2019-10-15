@@ -24,11 +24,18 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
     protected final Grid grid;
 
     /**
+     * Whether or not we can move diagonally.
+     */
+    private final boolean diagonalMovement;
+
+    /**
      * Constructs a new Pathfinder
      * @param grid The Grid used for the algorithm.
+     * @param diagonalMovement If the neighbors found are allowed to be diagonal
      */
-    public Pathfinder(Grid grid) {
+    public Pathfinder(Grid grid, boolean diagonalMovement) {
         this.grid = grid;
+        this.diagonalMovement = diagonalMovement;
     }
 
     /**
@@ -60,6 +67,11 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
             for (int dy = -1; dy <= 1; dy++) {
                 // Skip the current node
                 if (dx == 0 && dy == 0) {
+                    continue;
+                }
+
+                // Skip diagonals if needed
+                if(!diagonalMovement && dx != 0 && dy != 0) {
                     continue;
                 }
 

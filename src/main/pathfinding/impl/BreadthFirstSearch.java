@@ -17,8 +17,8 @@ import java.util.Queue;
  */
 public class BreadthFirstSearch extends Pathfinder {
 
-    public BreadthFirstSearch(Grid grid) {
-        super(grid);
+    public BreadthFirstSearch(Grid grid, boolean diagonalMovement) {
+        super(grid, diagonalMovement);
     }
 
     @Override

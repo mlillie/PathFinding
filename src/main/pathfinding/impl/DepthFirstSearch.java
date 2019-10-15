@@ -16,8 +16,8 @@ import java.util.Stack;
  */
 public class DepthFirstSearch extends Pathfinder {
 
-    public DepthFirstSearch(Grid grid) {
-        super(grid);
+    public DepthFirstSearch(Grid grid, boolean diagonalMovement) {
+        super(grid, diagonalMovement);
     }
 
     @Override

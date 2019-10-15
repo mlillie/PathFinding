@@ -34,6 +34,11 @@ public class Settings extends JPanel {
     private final JSlider nodeSizeSlider;
 
     /**
+     * The check box determining if we can move diagonally.
+     */
+    private final JCheckBox checkDiagonal;
+
+    /**
      * The swing worker thread currently being ran.
      */
     private SwingWorker currentlyRunningFinder;
@@ -49,6 +54,13 @@ public class Settings extends JPanel {
         this.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("Settings: "),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+
+        checkDiagonal = new JCheckBox("Diagonal Movement Allowed:");
+        checkDiagonal.setSelected(true);
+        checkDiagonal.setHorizontalTextPosition(SwingConstants.LEFT);
+
+        this.add(checkDiagonal, createGbc(2, 2));
 
         optionsBox = new JComboBox<>(ALGORITHM_NAMES);
 
@@ -88,15 +100,15 @@ public class Settings extends JPanel {
 
             switch (optionsBox.getSelectedIndex()) {
                 case 0:
-                    currentlyRunningFinder = new DepthFirstSearch(grid);
+                    currentlyRunningFinder = new DepthFirstSearch(grid, checkDiagonal.isSelected());
                     break;
 
                 case 1:
-                    currentlyRunningFinder = new BreadthFirstSearch(grid);
+                    currentlyRunningFinder = new BreadthFirstSearch(grid, checkDiagonal.isSelected());
                     break;
 
                 case 2:
-                    currentlyRunningFinder = new Dijkstra(grid);
+                    currentlyRunningFinder = new Dijkstra(grid, checkDiagonal.isSelected());
                     break;
 
                 case 3:
@@ -115,7 +127,7 @@ public class Settings extends JPanel {
                             heuristic = AstarHeuristics.MANHATTAN;
                             break;
                     }
-                    currentlyRunningFinder = new Astar(grid, heuristic);
+                    currentlyRunningFinder = new Astar(grid, checkDiagonal.isSelected(), heuristic);
                     break;
 
                 default:

@@ -16,8 +16,8 @@ import java.util.*;
  */
 public class Dijkstra extends Pathfinder {
 
-    public Dijkstra(Grid grid) {
-        super(grid);
+    public Dijkstra(Grid grid, boolean diagonalMovement) {
+        super(grid, diagonalMovement);
     }
 
     @Override
