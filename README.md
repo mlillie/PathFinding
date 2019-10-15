@@ -10,4 +10,5 @@ Implemented algorithms:
 
 Press help within the application for more information.
 
-# Download the JAR file from out/artifacts/PathFinding_jar
+
+** Download the JAR file from out/artifacts/PathFinding_jar
