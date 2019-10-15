@@ -61,7 +61,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
             startNode = nodes[0][0];
             startNode.setType(Node.NodeType.START);
-            goalNode = nodes[getWidth() / nodeSize - 1][getHeight() / nodeSize - 1];
+            goalNode = nodes[nodes.length-1][nodes[0].length-1];
             goalNode.setType(Node.NodeType.GOAL);
         }
 
@@ -161,7 +161,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
         startNode = nodes[0][0];
         startNode.setType(Node.NodeType.START);
-        goalNode = nodes[getWidth() / nodeSize - 1][getHeight() / nodeSize - 1];
+        goalNode = nodes[nodes.length-1][nodes[0].length-1];
         goalNode.setType(Node.NodeType.GOAL);
 
         pathFound = null;
