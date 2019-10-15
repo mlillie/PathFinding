@@ -171,6 +171,15 @@ public class Settings extends JPanel {
         });
 
         this.add(nodeSizeSlider, createGbc(2, 1));
+
+
+        JButton maze = new JButton("Generate Maze");
+
+        maze.addActionListener(actionEvent -> {
+            Maze.generateMaze(grid);
+        });
+
+        this.add(maze, createGbc(1, 2));
     }
 
     /**

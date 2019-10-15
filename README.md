@@ -2,11 +2,16 @@
 
 This is a path finding algorithm visualizer tool. 
 
-Implemented algorithms:
-- Breadth first search
-- Depth first search
-- Dijkstra
-- A* w/ Manhattan, Euclidean, and Diagonal heuristics
+Features:
+- Multiple algorithms:
+    - Breadth first search
+    - Depth first search
+    - Dijkstra
+    - A* w/ Manhattan, Euclidean, and Diagonal heuristics
+- Saving and loading of a grid using JSON format
+- Random maze generation
+- Ability to choose diagonal paths or not
+- Adjustable node sizes
 
 **Download the JAR file from out/artifacts/PathFinding_jar**
 
