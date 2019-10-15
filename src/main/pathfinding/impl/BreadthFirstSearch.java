@@ -43,10 +43,10 @@ public class BreadthFirstSearch extends Pathfinder {
 
                 neighbor.incrementTimesVisited();
 
-                Thread.sleep(10);
-                grid.repaint();
             }
 
+            Thread.sleep(15);
+            grid.repaint();
         }
 
         return null;

@@ -52,14 +52,12 @@ public class Dijkstra extends Pathfinder {
                     distances.put(neighbor, tentativeCost);
                     neighbor.setParent(current);
                     open.add(neighbor);
+                    neighbor.incrementTimesVisited();
                 }
-
-                neighbor.incrementTimesVisited();
-
-                Thread.sleep(10);
-                grid.repaint();
             }
 
+            Thread.sleep(15);
+            grid.repaint();
         }
         return null;
     }

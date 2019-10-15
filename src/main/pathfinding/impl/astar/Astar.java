@@ -82,14 +82,14 @@ public class Astar extends Pathfinder {
                     neighbor.setH(heuristic.calculate(neighbor.getNode(), grid.getGoalNode()));
                     neighbor.setF(neighbor.getG() + neighbor.getH());
                     neighbor.getNode().setParent(current.getNode());
+                    nodeNeighbor.incrementTimesVisited();
                     open.add(neighbor);
                 }
-
-                nodeNeighbor.incrementTimesVisited();
-
-                Thread.sleep(10);
-                grid.repaint();
              }
+
+
+            Thread.sleep(15);
+            grid.repaint();
 
         }
 

@@ -35,6 +35,7 @@ public class DepthFirstSearch extends Pathfinder {
             }
 
             for (Node neighbor : getNeighbors(current)) {
+
                 if(neighbor.getTimesVisited() == 0) {
                     neighbor.setParent(current);
                     open.add(neighbor);
@@ -42,10 +43,10 @@ public class DepthFirstSearch extends Pathfinder {
 
                 neighbor.incrementTimesVisited();
 
-                Thread.sleep(10);
-                grid.repaint();
             }
 
+            Thread.sleep(15);
+            grid.repaint();
         }
 
         return null;

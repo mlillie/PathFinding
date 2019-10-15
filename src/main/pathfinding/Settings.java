@@ -60,7 +60,7 @@ public class Settings extends JPanel {
         checkDiagonal.setSelected(true);
         checkDiagonal.setHorizontalTextPosition(SwingConstants.LEFT);
 
-        this.add(checkDiagonal, createGbc(2, 2));
+        this.add(checkDiagonal, createGbc(3, 0));
 
         optionsBox = new JComboBox<>(ALGORITHM_NAMES);
 
@@ -68,8 +68,10 @@ public class Settings extends JPanel {
         heuristicsBox = new JComboBox<>(HEURISTICS);
         heuristicsBox.setVisible(false);
 
+
         optionsBox.addActionListener(actionEvent -> {
             if (optionsBox.getSelectedIndex() == 3) {
+                heuristicsBox.setSize(optionsBox.getSize());
                 heuristicsBox.setVisible(true);
             } else {
                 heuristicsBox.setVisible(false);
@@ -132,6 +134,7 @@ public class Settings extends JPanel {
 
                 default:
                     break;
+
             }
 
             currentlyRunningFinder.execute();
@@ -151,9 +154,9 @@ public class Settings extends JPanel {
             grid.reset();
         });
 
-        this.add(resetButton, createGbc(2, 0));
+        this.add(resetButton, createGbc(1, 1));
 
-        this.add(new JLabel("Node Size:", JLabel.LEFT), createGbc(1, 1));
+        this.add(new JLabel("Node Size:", JLabel.LEFT), createGbc(2, 0));
 
         nodeSizeSlider = new JSlider(JSlider.HORIZONTAL, 5, 50, grid.getNodeSize());
 
@@ -167,7 +170,7 @@ public class Settings extends JPanel {
             grid.repaint();
         });
 
-        this.add(nodeSizeSlider, createGbc(1, 2));
+        this.add(nodeSizeSlider, createGbc(2, 1));
     }
 
     /**
@@ -191,9 +194,8 @@ public class Settings extends JPanel {
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.anchor = (x == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-        gbc.fill = (x == 0) ? GridBagConstraints.BOTH
-                : GridBagConstraints.HORIZONTAL;
+        gbc.anchor = x == 0 ? GridBagConstraints.WEST : GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbc.insets = (x == 0) ? WEST_INSETS : EAST_INSETS;
         gbc.weightx = (x == 0) ? 0.1 : 1.0;

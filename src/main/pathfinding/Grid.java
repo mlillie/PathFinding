@@ -79,7 +79,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
                 int realY = (y * nodeSize) % getHeight();
 
                 if (node.getTimesVisited() > 0) {
-                    Color color = Color.CYAN;
+                    Color color = Color.ORANGE;
                     for (int i = 1; i < node.getTimesVisited() / 3; i++) {
                         color = color.darker();
                     }
