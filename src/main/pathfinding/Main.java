@@ -19,7 +19,8 @@ public class Main {
             "Add blocked locations by left clicking and dragging or using middle mouse button. \n" +
             "Blocked locations can be removed by pressing middle mouse or right click dragging. \n" +
             "Magenta colored ovals will form once the algorithm runs which displays the amount a node has been visited.\n" +
-            "The more a node gets visited (though not necessarily processed), the darker and more filled it will be.";
+            "The more a node gets visited (though not necessarily processed), the darker and more filled it will be.\n" +
+            "If using IDA*, you may find better results with diagonals NOT allowed.";
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

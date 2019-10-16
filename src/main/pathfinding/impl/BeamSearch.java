@@ -38,6 +38,7 @@ public class BeamSearch extends Pathfinder {
         PriorityQueue<Node> set = new PriorityQueue<>(Comparator.comparing(node ->
                 heuristic.calculate(node, grid.getGoalNode())));
 
+        // TODO: Maybe have b be a possible setting input?
         int b = diagonalMovement ? 8 : 4;
 
         beam.add(grid.getStartNode());

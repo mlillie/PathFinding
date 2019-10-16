@@ -16,8 +16,10 @@ public class Settings extends JPanel {
     /**
      * Data used for the combo boxes
      */
-    private static final String[] ALGORITHM_NAMES = {"Depth First Search", "Breadth First Search", "Dijkstra's", "Astar", "Beam Search"};
-    private static final String[] HEURISTICS = {"Manhattan", "Euclidean", "Diagonal",};
+    private static final String[] ALGORITHM_NAMES = {
+            "Depth First Search", "Breadth First Search",
+            "Dijkstra's", "Astar", "Beam Search", "IDAStar"};
+    private static final String[] HEURISTICS = {"Manhattan", "Euclidean", "Octile", "Chebyshev"};
 
     /**
      * The combo boxes.
@@ -67,7 +69,7 @@ public class Settings extends JPanel {
 
 
         optionsBox.addActionListener(actionEvent -> {
-            if (optionsBox.getSelectedIndex() == 3 || optionsBox.getSelectedIndex() == 4) {
+            if (optionsBox.getSelectedIndex() == 3 || optionsBox.getSelectedIndex() == 4 || optionsBox.getSelectedIndex() == 5) {
                 heuristicsBox.setSize(optionsBox.getSize());
                 heuristicsBox.setVisible(true);
             } else {
@@ -112,6 +114,7 @@ public class Settings extends JPanel {
 
                 case 3:
                 case 4:
+                case 5:
                     Heuristics heuristic;
                     switch (heuristicsBox.getSelectedIndex()) {
                         case 0:
@@ -121,14 +124,19 @@ public class Settings extends JPanel {
                             heuristic = Heuristics.EUCLIDEAN;
                             break;
                         case 2:
-                            heuristic = Heuristics.DIAGONAL;
+                            heuristic = Heuristics.OCTILE;
+                            break;
+                        case 3:
+                            heuristic = Heuristics.CHEBYSHEV;
                             break;
                         default:
                             heuristic = Heuristics.MANHATTAN;
                             break;
                     }
-                    currentlyRunningFinder = optionsBox.getSelectedIndex() == 3 ? new Astar(grid, checkDiagonal.isSelected(), heuristic) :
-                            new BeamSearch(grid, checkDiagonal.isSelected(), heuristic);
+                    currentlyRunningFinder =
+                            optionsBox.getSelectedIndex() == 3 ? new Astar(grid, checkDiagonal.isSelected(), heuristic) :
+                            optionsBox.getSelectedIndex() == 4 ? new BeamSearch(grid, checkDiagonal.isSelected(), heuristic) :
+                                    new IDAStarSearch(grid, checkDiagonal.isSelected(), heuristic);
                     break;
 
                 default:

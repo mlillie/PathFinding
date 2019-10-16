@@ -122,6 +122,8 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
         //Draw the path if the path has been found
         if (pathFound != null) {
             for (int i = 0; i < pathFound.size() - 1; i++) {
+                if(pathFound.get(i) == null || pathFound.get(i + 1) == null) break;
+
                 Node current = pathFound.get(i);
                 Node next = pathFound.get(i + 1);
 

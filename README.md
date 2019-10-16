@@ -7,8 +7,14 @@ Features:
     - Breadth first search
     - Depth first search
     - Dijkstra
-    - A* w/ Manhattan, Euclidean, and Diagonal heuristics
+    - A*
     - Beam search
+    - IDA* 
+- Heuristics
+    - Manhattan
+    - Euclidean
+    - Octile
+    - Chebyshev
 - Saving and loading of a grid using JSON format
 - Random maze generation
 - Ability to choose diagonal paths or not

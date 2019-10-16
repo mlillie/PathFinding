@@ -13,12 +13,21 @@ public enum Heuristics {
         }
     },
 
-    DIAGONAL {
+    OCTILE {
         @Override
         public float calculate(Node one, Node two) {
             float dx = Math.abs(one.getX() - two.getX());
             float dy = Math.abs(one.getY() - two.getY());
             return STRAIGHT_COST * (dx + dy)  + (DIAGONAL_COST - 2f * STRAIGHT_COST) * Math.min(dx, dy);
+        }
+    },
+
+    CHEBYSHEV {
+        @Override
+        public float calculate(Node one, Node two) {
+            float dx = Math.abs(one.getX() - two.getX());
+            float dy = Math.abs(one.getY() - two.getY());
+            return STRAIGHT_COST * (dx + dy)  + (STRAIGHT_COST - 2f * STRAIGHT_COST) * Math.min(dx, dy);
         }
     },
 
