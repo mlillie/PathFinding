@@ -47,15 +47,18 @@ public class Maze {
      */
     public static void generateMaze(Grid grid) {
 
+        // Reset the grid
+        grid.reset();
+        grid.setPathFound(null);
+
         // Initialize the nodes and have them all be blocked
         int width = grid.getWidth() / grid.getNodeSize();
         int height = grid.getHeight() / grid.getNodeSize();
 
-        Node[][] nodes = new Node[width][height];
+        Node[][] nodes = grid.getNodes();
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                nodes[x][y] = new Node(x, y);
                 nodes[x][y].setType(Node.NodeType.BLOCKED);
             }
         }
@@ -144,6 +147,7 @@ public class Maze {
                 return true;
             }
         }
+
         //Check south
         if(currentY - 2 >= 1) {
             if (nodes[currentX][currentY - 2].getTimesVisited() == 0) {

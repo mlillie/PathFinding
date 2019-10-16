@@ -134,7 +134,7 @@ public class LoadingSaving {
             if (jfc.getSelectedFile().isDirectory()) {
                 return jfc.getSelectedFile().getAbsolutePath() + File.separator + "GridSave.json";
             }
-        } else if (returnValue != JFileChooser.CANCEL_OPTION) {
+        } else if (returnValue == JFileChooser.CANCEL_OPTION) {
             return null;
         }
 
