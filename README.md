@@ -8,6 +8,7 @@ Features:
     - Depth first search
     - Dijkstra
     - A* w/ Manhattan, Euclidean, and Diagonal heuristics
+    - Beam search
 - Saving and loading of a grid using JSON format
 - Random maze generation
 - Ability to choose diagonal paths or not
