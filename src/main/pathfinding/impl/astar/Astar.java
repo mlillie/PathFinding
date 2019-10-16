@@ -3,6 +3,7 @@ package main.pathfinding.impl.astar;
 import main.pathfinding.Grid;
 import main.pathfinding.Node;
 import main.pathfinding.Pathfinder;
+import main.pathfinding.impl.Heuristics;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class Astar extends Pathfinder {
     /**
      * The heuristic being used for the algorithm.
      */
-    private final AstarHeuristics heuristic;
+    private final Heuristics heuristic;
 
     /**
      * Constructs a new path A* finding algorithm.
@@ -31,7 +32,7 @@ public class Astar extends Pathfinder {
      * @param diagonalMovement Whether or not we can move diagonally.
      * @param heuristic The heuristic used for the algorithm.
      */
-    public Astar(Grid grid, boolean diagonalMovement, AstarHeuristics heuristic) {
+    public Astar(Grid grid, boolean diagonalMovement, Heuristics heuristic) {
         super(grid, diagonalMovement);
         this.heuristic = heuristic;
     }
@@ -107,7 +108,7 @@ public class Astar extends Pathfinder {
         boolean diagonal = Math.abs(one.getNode().getX() - two.getNode().getX()) != 0 &&
                 Math.abs(one.getNode().getY() - two.getNode().getY()) != 0;
 
-        return diagonal ? AstarHeuristics.DIAGONAL_COST : AstarHeuristics.STRAIGHT_COST;
+        return diagonal ? Heuristics.DIAGONAL_COST : Heuristics.STRAIGHT_COST;
     }
 
 }

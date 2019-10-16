@@ -1,8 +1,8 @@
-package main.pathfinding.impl.astar;
+package main.pathfinding.impl;
 
 import main.pathfinding.Node;
 
-public enum AstarHeuristics {
+public enum Heuristics {
 
     MANHATTAN {
         @Override

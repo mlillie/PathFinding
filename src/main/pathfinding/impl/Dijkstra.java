@@ -3,7 +3,6 @@ package main.pathfinding.impl;
 import main.pathfinding.Grid;
 import main.pathfinding.Node;
 import main.pathfinding.Pathfinder;
-import main.pathfinding.impl.astar.AstarHeuristics;
 
 import java.util.*;
 
@@ -73,7 +72,7 @@ public class Dijkstra extends Pathfinder {
         boolean diagonal = Math.abs(one.getX() - two.getX()) != 0 &&
                 Math.abs(one.getY() - two.getY()) != 0;
 
-        return diagonal ? AstarHeuristics.DIAGONAL_COST : AstarHeuristics.STRAIGHT_COST;
+        return diagonal ? Heuristics.DIAGONAL_COST : Heuristics.STRAIGHT_COST;
     }
 
 }

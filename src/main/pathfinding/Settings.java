@@ -1,10 +1,7 @@
 package main.pathfinding;
 
-import main.pathfinding.impl.BreadthFirstSearch;
-import main.pathfinding.impl.DepthFirstSearch;
-import main.pathfinding.impl.Dijkstra;
+import main.pathfinding.impl.*;
 import main.pathfinding.impl.astar.Astar;
-import main.pathfinding.impl.astar.AstarHeuristics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +16,7 @@ public class Settings extends JPanel {
     /**
      * Data used for the combo boxes
      */
-    private static final String[] ALGORITHM_NAMES = {"Depth First Search", "Breadth First Search", "Dijkstra's", "Astar"};
+    private static final String[] ALGORITHM_NAMES = {"Depth First Search", "Breadth First Search", "Dijkstra's", "Astar", "Beam Search"};
     private static final String[] HEURISTICS = {"Manhattan", "Euclidean", "Diagonal",};
 
     /**
@@ -70,7 +67,7 @@ public class Settings extends JPanel {
 
 
         optionsBox.addActionListener(actionEvent -> {
-            if (optionsBox.getSelectedIndex() == 3) {
+            if (optionsBox.getSelectedIndex() == 3 || optionsBox.getSelectedIndex() == 4) {
                 heuristicsBox.setSize(optionsBox.getSize());
                 heuristicsBox.setVisible(true);
             } else {
@@ -114,22 +111,24 @@ public class Settings extends JPanel {
                     break;
 
                 case 3:
-                    AstarHeuristics heuristic;
+                case 4:
+                    Heuristics heuristic;
                     switch (heuristicsBox.getSelectedIndex()) {
                         case 0:
-                            heuristic = AstarHeuristics.MANHATTAN;
+                            heuristic = Heuristics.MANHATTAN;
                             break;
                         case 1:
-                            heuristic = AstarHeuristics.EUCLIDEAN;
+                            heuristic = Heuristics.EUCLIDEAN;
                             break;
                         case 2:
-                            heuristic = AstarHeuristics.DIAGONAL;
+                            heuristic = Heuristics.DIAGONAL;
                             break;
                         default:
-                            heuristic = AstarHeuristics.MANHATTAN;
+                            heuristic = Heuristics.MANHATTAN;
                             break;
                     }
-                    currentlyRunningFinder = new Astar(grid, checkDiagonal.isSelected(), heuristic);
+                    currentlyRunningFinder = optionsBox.getSelectedIndex() == 3 ? new Astar(grid, checkDiagonal.isSelected(), heuristic) :
+                            new BeamSearch(grid, checkDiagonal.isSelected(), heuristic);
                     break;
 
                 default:
@@ -184,6 +183,7 @@ public class Settings extends JPanel {
 
     /**
      * Updates the value of the node size slider.
+     *
      * @param nodeSize The new node size.
      */
     public void updateNodeSizeSlider(int nodeSize) {
@@ -192,6 +192,7 @@ public class Settings extends JPanel {
 
     /**
      * Creates grid bag constraints given where it should be within the panel.
+     *
      * @param x The x position
      * @param y The y position
      * @return The GridBagConstraint

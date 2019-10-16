@@ -9,9 +9,8 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 /**
- *
  * Abstract class to represent a way to find a path.
- *
+ * <p>
  * Extends the SwingWorker class so that the path finding algorithm being ran can be executed on a separate thread.
  *
  * @author Matthew Lillie
@@ -26,11 +25,12 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
     /**
      * Whether or not we can move diagonally.
      */
-    private final boolean diagonalMovement;
+    protected final boolean diagonalMovement;
 
     /**
      * Constructs a new Pathfinder
-     * @param grid The Grid used for the algorithm.
+     *
+     * @param grid             The Grid used for the algorithm.
      * @param diagonalMovement If the neighbors found are allowed to be diagonal
      */
     public Pathfinder(Grid grid, boolean diagonalMovement) {
@@ -40,6 +40,7 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
 
     /**
      * Constructs a path that back traces from the goal Node to the start node.
+     *
      * @return A path from the start Node to the goal Node.
      */
     protected List<Node> constructPath() {
@@ -50,6 +51,10 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
         while (current != null) {
             path.add(0, current);
 
+            if (current == grid.getStartNode()) {
+                break;
+            }
+
             current = current.getParent();
         }
 
@@ -58,6 +63,7 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
 
     /**
      * Calculates the neighbors of the current node in 8 directions. Will exclude blocked nodes.
+     *
      * @param current The current node looked at.
      * @return A HashSet of all the valid neighbors.
      */
@@ -71,7 +77,7 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
                 }
 
                 // Skip diagonals if needed
-                if(!diagonalMovement && dx != 0 && dy != 0) {
+                if (!diagonalMovement && dx != 0 && dy != 0) {
                     continue;
                 }
 
@@ -98,9 +104,15 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
     @Override
     protected void done() {
         try {
-            // Once the path has been finished, we can immediately draw it on the main GUI
-            grid.setPathFound(get());
-        } catch (InterruptedException | ExecutionException  | CancellationException e) {
+            List<Node> path = get();
+            if(path == null || path.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Failed to find path.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Once the path has been finished, we can immediately draw it on the main GUI
+                grid.setPathFound(path);
+            }
+        } catch (InterruptedException | ExecutionException | CancellationException e) {
             //e.printStackTrace();
         }
     }
