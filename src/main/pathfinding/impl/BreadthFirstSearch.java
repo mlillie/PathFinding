@@ -10,7 +10,7 @@ import java.util.Queue;
 
 /**
  * This class represents the Breadth First Search path finding algorithm.
- *
+ * <p>
  * https://en.wikipedia.org/wiki/Breadth-first_search
  *
  * @author Matthew Lillie
@@ -28,15 +28,15 @@ public class BreadthFirstSearch extends Pathfinder {
 
         grid.getStartNode().incrementTimesVisited();
 
-        while(!open.isEmpty()) {
+        while (!open.isEmpty()) {
             Node current = open.poll();
 
-            if(current == grid.getGoalNode()) {
+            if (current == grid.getGoalNode()) {
                 return constructPath();
             }
 
             for (Node neighbor : getNeighbors(current)) {
-                if(neighbor.getTimesVisited() == 0) {
+                if (neighbor.getTimesVisited() == 0) {
                     neighbor.setParent(current);
                     open.add(neighbor);
                 }

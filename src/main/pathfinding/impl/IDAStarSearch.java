@@ -4,11 +4,15 @@ import main.pathfinding.Grid;
 import main.pathfinding.Node;
 import main.pathfinding.Pathfinder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
- * Implementation of iterative deepening a star search.
- *
+ * Implementation of iterative deepening a star search. Requires a different way of following the path due to its recursive nature, and
+ * is highly dependent on the heuristic used.
+ * <p>
+ * https://en.wikipedia.org/wiki/Iterative_deepening_A*
  */
 public class IDAStarSearch extends Pathfinder {
 
@@ -22,7 +26,7 @@ public class IDAStarSearch extends Pathfinder {
      *
      * @param grid             The Grid used for the algorithm.
      * @param diagonalMovement If the neighbors found are allowed to be diagonal
-     * @param heuristic     The heuristic being used for the algorithm.
+     * @param heuristic        The heuristic being used for the algorithm.
      */
     public IDAStarSearch(Grid grid, boolean diagonalMovement, Heuristics heuristic) {
         super(grid, diagonalMovement);
@@ -37,22 +41,22 @@ public class IDAStarSearch extends Pathfinder {
 
         path.add(grid.getStartNode());
 
-        while(true) {
+        while (true) {
             Object temp = search(grid.getStartNode(), 0f, threshold, path);
 
-            if(temp == null) {
+            if (temp == null) {
                 break;
             }
 
-            if(temp instanceof Node && temp == grid.getGoalNode()) {
+            if (temp instanceof Node && temp == grid.getGoalNode()) {
                 return path;
             }
 
-            if((float)temp == Float.MAX_VALUE) {
+            if ((float) temp == Float.MAX_VALUE) {
                 return null;
             }
 
-            threshold = (float)temp;
+            threshold = (float) temp;
         }
 
         return null;
@@ -60,30 +64,34 @@ public class IDAStarSearch extends Pathfinder {
 
     /**
      * Recursive helper function used for the algorithm for searching.
-     * @param current The current node examined.
-     * @param g The g value.
+     *
+     * @param current   The current node examined.
+     * @param g         The g value.
      * @param threshold The maximum cut-off threshold.
-     * @param path The path found.
+     * @param path      The path found.
      * @return A float or a Node depending on the status of the algorithm
      * @throws InterruptedException Algorithm may be interrupted.
      */
     private Object search(Node current, float g, float threshold, List<Node> path) throws InterruptedException {
         float f = g + heuristic.calculate(current, grid.getGoalNode());
 
-        if(f > threshold) {
+        if (f > threshold) {
             return f;
         }
 
-        if(current == grid.getGoalNode()) {
+        if (current == grid.getGoalNode()) {
             return current;
         }
 
         current.incrementTimesVisited();
+        Thread.sleep(10);
+        grid.repaint();
+
         float min = Float.MAX_VALUE;
 
-        for(Node neighbor : getNewNeighbors(current)) {
+        for (Node neighbor : getNewNeighbors(current)) {
 
-            if(!path.contains(neighbor)) {
+            if (!path.contains(neighbor)) {
                 path.add(neighbor);
 
                 Object temp = search(neighbor, g + getMovementCost(current, neighbor), threshold, path);
@@ -101,7 +109,7 @@ public class IDAStarSearch extends Pathfinder {
             }
 
             neighbor.incrementTimesVisited();
-            Thread.sleep(5);
+            Thread.sleep(10);
             grid.repaint();
         }
 
@@ -110,6 +118,7 @@ public class IDAStarSearch extends Pathfinder {
 
     /**
      * Gets neighbors sorted by g + h values.
+     *
      * @param current The current node examined
      * @return The queue of sorted nodes.
      */
@@ -131,6 +140,7 @@ public class IDAStarSearch extends Pathfinder {
 
     /**
      * Calculates the cost of going from one node to the next
+     *
      * @param one The first node
      * @param two The second node
      * @return If the movement is diagonal, it will return the cost of moving diagonally otherwise straight.

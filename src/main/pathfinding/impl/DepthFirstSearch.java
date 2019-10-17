@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- *  This class represents the Depth First Search path finding algorithm.
- *
- *  https://en.wikipedia.org/wiki/Depth-first_search
+ * This class represents the Depth First Search path finding algorithm.
+ * <p>
+ * https://en.wikipedia.org/wiki/Depth-first_search
  *
  * @author Matthew Lillie
  */
@@ -27,16 +27,16 @@ public class DepthFirstSearch extends Pathfinder {
 
         grid.getStartNode().incrementTimesVisited();
 
-        while(!open.isEmpty()) {
+        while (!open.isEmpty()) {
             Node current = open.pop();
 
-            if(current == grid.getGoalNode()) {
+            if (current == grid.getGoalNode()) {
                 return constructPath();
             }
 
             for (Node neighbor : getNeighbors(current)) {
 
-                if(neighbor.getTimesVisited() == 0) {
+                if (neighbor.getTimesVisited() == 0) {
                     neighbor.setParent(current);
                     open.add(neighbor);
                 }

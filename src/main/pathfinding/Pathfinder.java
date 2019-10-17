@@ -105,7 +105,7 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
     protected void done() {
         try {
             List<Node> path = get();
-            if(path == null || path.isEmpty()) {
+            if (path == null || path.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Failed to find path.", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {

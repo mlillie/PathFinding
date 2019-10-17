@@ -2,14 +2,15 @@ package main.pathfinding;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 
 /**
  * A grid being painted onto a JPanel. The grid consists of nodes where we can specify the size of the node.
  * <p>
- * This panel handles all the clicking and dragging associated with changes the start node, end node, and blocked nodes.
+ * This canvas handles all the clicking and dragging associated with changes the start node, end node, and blocked nodes.
  *
  * @author Matthew Lillie
  */
@@ -48,7 +49,6 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         // Create the nodes, must be done here because width and height of this component are not set until after initialization
         if (nodes == null) {
             nodes = new Node[getWidth() / nodeSize][getHeight() / nodeSize];
@@ -61,7 +61,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
             startNode = nodes[0][0];
             startNode.setType(Node.NodeType.START);
-            goalNode = nodes[nodes.length-1][nodes[0].length-1];
+            goalNode = nodes[nodes.length - 1][nodes[0].length - 1];
             goalNode.setType(Node.NodeType.GOAL);
         }
 
@@ -79,24 +79,30 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
                 int realY = (y * nodeSize) % getHeight();
 
                 if (node.getTimesVisited() > 0) {
-                    Color color = Color.MAGENTA;
+                    float maxBound = 20f;
 
-                    for (int i = 1; i < node.getTimesVisited() / 3; i++) {
-                        color = color.darker();
+                    // Fail safe
+                    if(node.getTimesVisited() > maxBound) {
+                        maxBound = (float)node.getTimesVisited();
+                    }
+
+                    float t = ((float)node.getTimesVisited() / maxBound);
+
+                    // Lerp between 10f and  255f based on times visited and the max bound
+                    float alpha = (1f - t) * 10f + t * 255f;
+                    Color color = new Color(Color.MAGENTA.getRed(), Color.MAGENTA.getGreen(), Color.MAGENTA.getBlue(), (int)alpha);
+
+                    // Make it darker if we have exceeded the bounds
+                    if(node.getTimesVisited() > maxBound) {
+                        for(int i = (int) maxBound; i < node.getTimesVisited(); i ++) {
+                            color = color.darker();
+                        }
                     }
 
                     graphics.setColor(color);
-
-                    if (node.getTimesVisited() == 1) {
-                        graphics.drawOval(realX + nodeSize / 2, realY + nodeSize / 2, (int) (nodeSize / 2), (int) (nodeSize / 2));
-                    } else {
-                        graphics.fillOval(realX + nodeSize / 2, realY + nodeSize / 2, (int) (nodeSize / 2), (int) (nodeSize / 2));
-                    }
-
-                    graphics.setColor(Color.LIGHT_GRAY);
-                    graphics.drawRect(realX, realY, nodeSize, nodeSize);
+                    graphics.fillRect(realX, realY, nodeSize, nodeSize);
                 }
-                switch(node.getType()) {
+                switch (node.getType()) {
                     case START:
                         graphics.setColor(Color.GREEN);
                         graphics.fillRect(realX, realY, nodeSize, nodeSize);
@@ -122,7 +128,9 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
         //Draw the path if the path has been found
         if (pathFound != null) {
             for (int i = 0; i < pathFound.size() - 1; i++) {
-                if(pathFound.get(i) == null || pathFound.get(i + 1) == null) break;
+                if (pathFound.get(i) == null || pathFound.get(i + 1) == null) {
+                    break;
+                }
 
                 Node current = pathFound.get(i);
                 Node next = pathFound.get(i + 1);
@@ -145,6 +153,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Sets the path found.
+     *
      * @param pathFound The found path to display.
      */
     public void setPathFound(List<Node> pathFound) {
@@ -164,7 +173,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
         startNode = nodes[0][0];
         startNode.setType(Node.NodeType.START);
-        goalNode = nodes[nodes.length-1][nodes[0].length-1];
+        goalNode = nodes[nodes.length - 1][nodes[0].length - 1];
         goalNode.setType(Node.NodeType.GOAL);
 
         pathFound = null;
@@ -174,6 +183,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Gets the size of nodes on the grid.
+     *
      * @return the size of the nodes.
      */
     public int getNodeSize() {
@@ -182,6 +192,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Sets the size of the nodes and updates the grid.
+     *
      * @param nodeSize The new size of the nodes.
      */
     public void setNodeSize(int nodeSize) {
@@ -204,6 +215,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Sets the nodes for this grid.
+     *
      * @param nodes The new nodes for this grid.
      */
     public void setNodes(Node[][] nodes) {
@@ -239,6 +251,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Sets the new start node.
+     *
      * @param startNode The new start node.
      */
     public void setStartNode(Node startNode) {
@@ -247,6 +260,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
 
     /**
      * Sets the new end node.
+     *
      * @param goalNode The new end node.
      */
     public void setGoalNode(Node goalNode) {
@@ -275,7 +289,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
             // Middle click changes whether or not the hovered node is blocked
         } else if (mouseEvent.getButton() == MouseEvent.BUTTON2) {
             if (nodes[x][y] != startNode && nodes[x][y] != goalNode) {
-                if(nodes[x][y].getType() == Node.NodeType.BLOCKED) {
+                if (nodes[x][y].getType() == Node.NodeType.BLOCKED) {
                     nodes[x][y].setType(Node.NodeType.NORMAL);
                 } else {
                     nodes[x][y].setType(Node.NodeType.BLOCKED);
@@ -316,7 +330,7 @@ public class Grid extends JPanel implements MouseListener, MouseMotionListener {
                         continue;
                     }
 
-                    if(draggedButton == MouseEvent.BUTTON1) {
+                    if (draggedButton == MouseEvent.BUTTON1) {
                         nodes[x][y].setType(Node.NodeType.BLOCKED);
                     } else {
                         nodes[x][y].setType(Node.NodeType.NORMAL);

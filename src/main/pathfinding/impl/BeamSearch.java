@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Implementation of the BeamSearch algorithm
- *
+ * <p>
  * https://en.wikipedia.org/wiki/Beam_search
  *
  * @author Matthew Lillie
@@ -25,7 +25,7 @@ public class BeamSearch extends Pathfinder {
      *
      * @param grid             The Grid used for the algorithm.
      * @param diagonalMovement If the neighbors found are allowed to be diagonal
-     * @param heuristic The heuristic used for the algorithm.
+     * @param heuristic        The heuristic used for the algorithm.
      */
     public BeamSearch(Grid grid, boolean diagonalMovement, Heuristics heuristic) {
         super(grid, diagonalMovement);
@@ -38,20 +38,19 @@ public class BeamSearch extends Pathfinder {
         PriorityQueue<Node> set = new PriorityQueue<>(Comparator.comparing(node ->
                 heuristic.calculate(node, grid.getGoalNode())));
 
-        // TODO: Maybe have b be a possible setting input?
-        int b = diagonalMovement ? 8 : 4;
+        int beamWidth = diagonalMovement ? 8 : 4;
 
         beam.add(grid.getStartNode());
 
-        while(!beam.isEmpty()) {
+        while (!beam.isEmpty()) {
 
-            for(Node node : beam) {
-                for(Node neighbor : getNeighbors(node)) {
-                    if(neighbor.getTimesVisited() == 0) {
+            for (Node node : beam) {
+                for (Node neighbor : getNeighbors(node)) {
+                    if (neighbor.getTimesVisited() == 0) {
                         neighbor.setParent(node);
                     }
 
-                    if(node == grid.getGoalNode()) {
+                    if (node == grid.getGoalNode()) {
                         return constructPath();
                     }
 
@@ -61,15 +60,15 @@ public class BeamSearch extends Pathfinder {
 
             beam.clear();
 
-            // Only allow b items into the true open (beam) set
-            while(!set.isEmpty() && b > beam.size()) {
+            // Only allow beamWidth items into the true open (beam) set
+            while (!set.isEmpty() && beamWidth > beam.size()) {
                 Node state = set.poll();
 
-                if(state == null) {
+                if (state == null) {
                     continue;
                 }
 
-                if(state.getTimesVisited() == 0) {
+                if (state.getTimesVisited() == 0) {
                     beam.add(state);
                 }
 

@@ -28,13 +28,14 @@ public class LoadingSaving {
 
     /**
      * Loads a Grid from a JSON file.
+     *
      * @param grid The Grid to update with the given file.
      * @throws IOException An exception may be thrown if invalid File.
      */
     public static void loadGrid(Grid grid, Settings settings) throws IOException {
         String directory = getLoadDirectory();
 
-        if(directory == null) {
+        if (directory == null) {
             return;
         }
 
@@ -42,28 +43,28 @@ public class LoadingSaving {
 
         GridObject gridObject = gson.fromJson(new FileReader(directory), GridObject.class);
 
-        if(gridObject != null) {
+        if (gridObject != null) {
             Node[][] nodes = new Node[gridObject.getGridWidth()][gridObject.getGridHeight()];
 
             grid.setNodeSize(gridObject.getNodeSize());
             settings.updateNodeSizeSlider(gridObject.getNodeSize());
 
-            for(int x = 0; x < gridObject.getGridWidth(); x++) {
-                for(int y = 0; y < gridObject.getGridHeight(); y++) {
+            for (int x = 0; x < gridObject.getGridWidth(); x++) {
+                for (int y = 0; y < gridObject.getGridHeight(); y++) {
                     nodes[x][y] = new Node(x, y);
 
                     Node gridNode = nodes[x][y];
 
                     Character value = gridObject.getGridValues()[x][y];
-                    if(value == Node.NodeType.START.getSaveCode()) {
+                    if (value == Node.NodeType.START.getSaveCode()) {
                         gridNode.setType(Node.NodeType.START);
                         grid.setStartNode(gridNode);
-                    } else if(value == Node.NodeType.GOAL.getSaveCode()) {
+                    } else if (value == Node.NodeType.GOAL.getSaveCode()) {
                         gridNode.setType(Node.NodeType.GOAL);
                         grid.setGoalNode(gridNode);
-                    } else if(value == Node.NodeType.BLOCKED.getSaveCode()) {
+                    } else if (value == Node.NodeType.BLOCKED.getSaveCode()) {
                         gridNode.setType(Node.NodeType.BLOCKED);
-                    } else if(value == Node.NodeType.NORMAL.getSaveCode()) {
+                    } else if (value == Node.NodeType.NORMAL.getSaveCode()) {
                         gridNode.setType(Node.NodeType.NORMAL);
                     }
 
@@ -77,14 +78,15 @@ public class LoadingSaving {
 
     /**
      * Saves the currently used grid in JSON format.
+     *
      * @param grid The Grid to be saved
      * @throws IOException Exception may be thrown if invalid File or directory.
      */
     public static void saveGrid(Grid grid) throws IOException {
         // Find the path
-        if(currentPathDirectory == null) {
+        if (currentPathDirectory == null) {
             String directory = getSaveDirectory();
-            if(directory != null) {
+            if (directory != null) {
                 currentPathDirectory = directory;
             } else {
                 return;
@@ -94,8 +96,8 @@ public class LoadingSaving {
         Character[][] gridValues = new Character[grid.getNodes().length][grid.getNodes()[0].length];
 
         // Turn the nodes into a 2d character array
-        for(int x = 0; x < grid.getNodes().length; x++) {
-            for(int y = 0; y < grid.getNodes()[x].length; y++) {
+        for (int x = 0; x < grid.getNodes().length; x++) {
+            for (int y = 0; y < grid.getNodes()[x].length; y++) {
                 Node node = grid.getNodes()[x][y];
 
                 gridValues[x][y] = node.getType().getSaveCode();
@@ -119,6 +121,7 @@ public class LoadingSaving {
 
     /**
      * Attempts to get the directory of where to save the JSON file.
+     *
      * @return The directory to save the JSON file.
      */
     private static String getSaveDirectory() {
@@ -160,7 +163,7 @@ public class LoadingSaving {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
 
             if (jfc.getSelectedFile().isFile()) {
-                if(getExtension(jfc.getSelectedFile()).equals("json")) {
+                if (getExtension(jfc.getSelectedFile()).equals("json")) {
                     return jfc.getSelectedFile().getAbsolutePath();
                 }
             }
@@ -171,6 +174,7 @@ public class LoadingSaving {
 
     /**
      * Gets the type of extension that a file has.
+     *
      * @param f The file.
      * @return The extension of the file.
      */
@@ -179,8 +183,8 @@ public class LoadingSaving {
         String s = f.getName();
         int i = s.lastIndexOf('.');
 
-        if (i > 0 &&  i < s.length() - 1) {
-            ext = s.substring(i+1).toLowerCase();
+        if (i > 0 && i < s.length() - 1) {
+            ext = s.substring(i + 1).toLowerCase();
         }
         return ext;
     }

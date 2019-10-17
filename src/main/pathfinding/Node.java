@@ -9,6 +9,7 @@ public class Node {
 
     /**
      * Represents the different types of Nodes
+     *
      * @author Matthew Lillie
      */
     public enum NodeType {
@@ -24,6 +25,7 @@ public class Node {
 
         /**
          * Creates a new type with a given save code.
+         *
          * @param saveCode The save code.
          */
         NodeType(char saveCode) {
@@ -32,6 +34,7 @@ public class Node {
 
         /**
          * Gets the save code for the type.
+         *
          * @return The save code.
          */
         public char getSaveCode() {
@@ -52,7 +55,7 @@ public class Node {
     /**
      * The amount of times this node has been visited.
      */
-    private int timesVisited ;
+    private int timesVisited;
 
     /**
      * This nodes parent (for the pathfinding).
@@ -61,6 +64,7 @@ public class Node {
 
     /**
      * Constructs a new node with a given position.
+     *
      * @param x The x position.
      * @param y The y position.
      */

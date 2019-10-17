@@ -1,7 +1,6 @@
 package main.pathfinding.saving;
 
 /**
- *
  * @author Matthew Lillie
  */
 public class GridObject {

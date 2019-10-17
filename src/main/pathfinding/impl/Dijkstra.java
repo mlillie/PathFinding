@@ -7,9 +7,9 @@ import main.pathfinding.Pathfinder;
 import java.util.*;
 
 /**
- *  This class represents the Dijkstra path finding algorithm.
- *
- *  https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+ * This class represents the Dijkstra path finding algorithm.
+ * <p>
+ * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
  *
  * @author Matthew Lillie
  */
@@ -39,14 +39,14 @@ public class Dijkstra extends Pathfinder {
 
             for (Node neighbor : getNeighbors(current)) {
 
-                if(neighbor.getTimesVisited() > 0) {
+                if (neighbor.getTimesVisited() > 0) {
                     neighbor.incrementTimesVisited();
                     continue;
                 }
 
                 float tentativeCost = distances.getOrDefault(current, Float.MAX_VALUE) + getMovementCost(current, neighbor);
 
-                if(tentativeCost < distances.getOrDefault(neighbor, Float.MAX_VALUE)) {
+                if (tentativeCost < distances.getOrDefault(neighbor, Float.MAX_VALUE)) {
                     open.remove(neighbor);
                     distances.put(neighbor, tentativeCost);
                     neighbor.setParent(current);
