@@ -41,38 +41,40 @@ public class LoadingSaving {
 
         Gson gson = new Gson();
 
-        GridObject gridObject = gson.fromJson(new FileReader(directory), GridObject.class);
+        try(FileReader reader = new FileReader(directory)) {
+            GridObject gridObject = gson.fromJson(reader, GridObject.class);
 
-        if (gridObject != null) {
-            Node[][] nodes = new Node[gridObject.getGridWidth()][gridObject.getGridHeight()];
+            if (gridObject != null) {
+                Node[][] nodes = new Node[gridObject.getGridWidth()][gridObject.getGridHeight()];
 
-            grid.setNodeSize(gridObject.getNodeSize());
-            settings.updateNodeSizeSlider(gridObject.getNodeSize());
+                grid.setNodeSize(gridObject.getNodeSize());
+                settings.updateNodeSizeSlider(gridObject.getNodeSize());
 
-            for (int x = 0; x < gridObject.getGridWidth(); x++) {
-                for (int y = 0; y < gridObject.getGridHeight(); y++) {
-                    nodes[x][y] = new Node(x, y);
+                for (int x = 0; x < gridObject.getGridWidth(); x++) {
+                    for (int y = 0; y < gridObject.getGridHeight(); y++) {
+                        nodes[x][y] = new Node(x, y);
 
-                    Node gridNode = nodes[x][y];
+                        Node gridNode = nodes[x][y];
 
-                    Character value = gridObject.getGridValues()[x][y];
-                    if (value == Node.NodeType.START.getSaveCode()) {
-                        gridNode.setType(Node.NodeType.START);
-                        grid.setStartNode(gridNode);
-                    } else if (value == Node.NodeType.GOAL.getSaveCode()) {
-                        gridNode.setType(Node.NodeType.GOAL);
-                        grid.setGoalNode(gridNode);
-                    } else if (value == Node.NodeType.BLOCKED.getSaveCode()) {
-                        gridNode.setType(Node.NodeType.BLOCKED);
-                    } else if (value == Node.NodeType.NORMAL.getSaveCode()) {
-                        gridNode.setType(Node.NodeType.NORMAL);
+                        Character value = gridObject.getGridValues()[x][y];
+                        if (value == Node.NodeType.START.getSaveCode()) {
+                            gridNode.setType(Node.NodeType.START);
+                            grid.setStartNode(gridNode);
+                        } else if (value == Node.NodeType.GOAL.getSaveCode()) {
+                            gridNode.setType(Node.NodeType.GOAL);
+                            grid.setGoalNode(gridNode);
+                        } else if (value == Node.NodeType.BLOCKED.getSaveCode()) {
+                            gridNode.setType(Node.NodeType.BLOCKED);
+                        } else if (value == Node.NodeType.NORMAL.getSaveCode()) {
+                            gridNode.setType(Node.NodeType.NORMAL);
+                        }
+
                     }
-
                 }
-            }
 
-            grid.setNodes(nodes);
-            grid.repaint();
+                grid.setNodes(nodes);
+                grid.repaint();
+            }
         }
     }
 
@@ -114,9 +116,9 @@ public class LoadingSaving {
         String jsonGrid = gson.toJson(gridObject);
 
         // Write the file and close the writer.
-        FileWriter fileWriter = new FileWriter(currentPathDirectory);
-        fileWriter.write(jsonGrid);
-        fileWriter.close();
+        try(FileWriter fileWriter = new FileWriter(currentPathDirectory)) {
+            fileWriter.write(jsonGrid);
+        }
     }
 
     /**

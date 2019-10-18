@@ -4,8 +4,6 @@ import main.pathfinding.impl.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * This class is a JPanel that holds all the different settings used for the application.

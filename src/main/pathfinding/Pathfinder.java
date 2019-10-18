@@ -112,6 +112,8 @@ public abstract class Pathfinder extends SwingWorker<List<Node>, Object> {
                 // Once the path has been finished, we can immediately draw it on the main GUI
                 grid.setPathFound(path);
             }
+            // May have allocated a lot memory, have gc attempt to clean it up if possible
+            System.gc();
         } catch (InterruptedException | ExecutionException | CancellationException e) {
             //e.printStackTrace();
         }
