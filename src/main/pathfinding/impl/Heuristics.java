@@ -53,7 +53,7 @@ public enum Heuristics {
         public float calculate(Node one, Node two) {
             float dx = Math.abs(one.getX() - two.getX());
             float dy = Math.abs(one.getY() - two.getY());
-            return STRAIGHT_COST * (dx + dx * dy * dy);
+            return (float) (STRAIGHT_COST * Math.sqrt(dx * dx + dy * dy));
         }
     },
 
