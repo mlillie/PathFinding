@@ -38,7 +38,7 @@ public class BreadthFirstSearch extends Pathfinder {
             for (Node neighbor : getNeighbors(current)) {
                 if (neighbor.getTimesVisited() == 0) {
                     neighbor.setParent(current);
-                    open.add(neighbor);
+                    open.offer(neighbor);
                 }
 
                 neighbor.incrementTimesVisited();

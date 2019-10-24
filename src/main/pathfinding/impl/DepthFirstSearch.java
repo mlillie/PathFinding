@@ -17,15 +17,15 @@ import java.util.Stack;
 public class DepthFirstSearch extends Pathfinder {
 
     public DepthFirstSearch(Grid grid, boolean diagonalMovement) {
-        super(grid, diagonalMovement);
-    }
+                super(grid, diagonalMovement);
+            }
 
-    @Override
-    protected List<Node> doInBackground() throws Exception {
-        Stack<Node> open = new Stack<>();
-        open.add(grid.getStartNode());
+            @Override
+            protected List<Node> doInBackground() throws Exception {
+                Stack<Node> open = new Stack<>();
+                open.add(grid.getStartNode());
 
-        grid.getStartNode().incrementTimesVisited();
+                grid.getStartNode().incrementTimesVisited();
 
         while (!open.isEmpty()) {
             Node current = open.pop();
@@ -38,7 +38,7 @@ public class DepthFirstSearch extends Pathfinder {
 
                 if (neighbor.getTimesVisited() == 0) {
                     neighbor.setParent(current);
-                    open.add(neighbor);
+                    open.push(neighbor);
                 }
 
                 neighbor.incrementTimesVisited();
